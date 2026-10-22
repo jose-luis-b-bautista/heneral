@@ -98,6 +98,9 @@ friendly-capture rejection, the end-of-match reveal, and persisted win/loss stat
 
 ## Production deployment
 
+> **Full operational runbook: [`DEPLOYMENT.md`](DEPLOYMENT.md)** — provider settings,
+> environment variables, redeploy procedure, verification checklist, and troubleshooting.
+
 ### Backend → Render (Web Service)
 
 `render.yaml` (repository root — Render only reads Blueprints from the repo root) is
