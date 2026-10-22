@@ -100,7 +100,21 @@ friendly-capture rejection, the end-of-match reveal, and persisted win/loss stat
 
 ### Backend → Render (Web Service)
 
-`server/render.yaml` is a ready blueprint. Set these env vars in the Render dashboard:
+`render.yaml` (repository root — Render only reads Blueprints from the repo root) is
+a ready blueprint. It sets **Build Command `npm install`** and **Start Command
+`node src/server.js`**. The server is plain JavaScript with no compile step, so
+never point Render's build command at `npm run build` — `server/package.json` has
+no `build` script and the deploy fails with `npm error Missing script: "build"`.
+
+If you create the Web Service manually instead of using the Blueprint, use:
+
+| Setting         | Value                |
+| --------------- | -------------------- |
+| Root Directory  | `server`             |
+| Build Command   | `npm install`        |
+| Start Command   | `node src/server.js` |
+
+Then set these env vars in the Render dashboard:
 
 - `DATABASE_URL` — your Neon PostgreSQL connection string (`sslmode=require`)
 - `JWT_SECRET` — a long random string
@@ -143,8 +157,8 @@ heneral/
 │   │   ├── routes/            # auth, users, health
 │   │   ├── middleware/        # JWT auth
 │   │   └── server.js          # entry point
-│   ├── test/                  # arbiter, game state, socket integration
-│   └── render.yaml
+│   └── test/                  # arbiter, game state, socket integration
+├── render.yaml                # Render blueprint (must be at repo root)
 ├── netlify.toml
 └── package.json               # root convenience scripts
 ```

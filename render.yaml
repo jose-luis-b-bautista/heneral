@@ -1,4 +1,13 @@
 # Render deployment blueprint for the Salpakan arbiter.
+#
+# This file MUST live in the repository root — Render only reads Blueprints
+# from the root (or from a path you specify when creating the Blueprint).
+#
+# The server is plain JavaScript: there is no build/compile step, so the build
+# command is just `npm install`. Never use `npm run build` here — server/
+# package.json has no "build" script and the deploy fails with
+# `npm error Missing script: "build"`.
+#
 # The free web tier spins down after ~15 min idle — ping GET /api/health from
 # an external cron (every ~10 min) to keep it warm.
 services:
