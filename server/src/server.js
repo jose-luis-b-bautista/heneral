@@ -21,7 +21,7 @@ const { initSockets } = require('./sockets');
 function createApp() {
   const app = express();
   app.disable('x-powered-by');
-  app.use(cors({ origin: config.clientOrigin }));
+  app.use(cors({ origin: config.clientOrigins }));
   app.use(express.json());
 
   app.get('/', (req, res) => res.json({ service: 'salpakan-server', health: '/api/health' }));
@@ -45,7 +45,7 @@ function createApp() {
 function build() {
   const app = createApp();
   const server = http.createServer(app);
-  const io = new Server(server, { cors: { origin: config.clientOrigin } });
+  const io = new Server(server, { cors: { origin: config.clientOrigins } });
   io.use((socket, next) => verifySocketHandshake(socket.handshake.auth, next));
   const roomManager = initSockets(io);
   return { app, server, io, roomManager };
@@ -57,6 +57,8 @@ function start() {
     console.log(
       `[salpakan] listening on :${config.port} (db: ${config.isPostgres ? 'postgres' : 'memory'})`
     );
+    // Logged so CORS misconfiguration is obvious in the deploy logs.
+    console.log(`[salpakan] allowed origin(s): ${config.clientOrigins.join(', ')}`);
   });
 
   const shutdown = (signal) => {
