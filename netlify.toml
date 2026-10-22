@@ -2,7 +2,12 @@
 # The client is a plain static SPA (no client-side routing), so a simple
 # publish of `client/dist` is all that's required.
 [build]
-  command = "npm --prefix client run build"
+  # Netlify's automatic dependency install runs in the base directory (the repo
+  # root), which only has `concurrently`. The client's own dependencies (vite,
+  # typescript, react, ...) live in client/, so install them explicitly here
+  # before building — otherwise the build fails with `tsc: command not found`
+  # (exit code 127).
+  command = "npm ci --prefix client && npm --prefix client run build"
   publish = "client/dist"
 
 [build.environment]
