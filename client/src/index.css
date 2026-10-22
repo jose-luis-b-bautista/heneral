@@ -1,0 +1,110 @@
+@import 'tailwindcss';
+
+/* Dark theme is driven by a `.dark` class on <html>, not the OS preference.
+   Components are written once against these semantic tokens; the `.dark`
+   block redefines the *same* token names so no `dark:` variant is needed. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* ---- Surfaces & text (semantic zinc scale, light values) ---- */
+  --color-surface: #fafafa;
+  --color-card: #ffffff;
+  --color-card-soft: #f4f4f5;
+  --color-border: #e4e4e7;
+  --color-input: #d4d4d8;
+  --color-ring: #a1a1aa;
+  --color-ink: #18181b;
+  --color-ink-strong: #27272a;
+  --color-label: #3f3f46;
+  --color-muted: #52525b;
+  --color-faint: #71717a;
+
+  /* ---- Accent & status ---- */
+  --color-accent: #059669;
+  --color-accent-strong: #047857;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #d1fae5;
+  --color-accent-border: #065f46;
+
+  /* ---- Game board tokens ---- */
+  --board-cell-a: #e7e2d6;
+  --board-cell-b: #d6cfc0;
+  --board-line: #b8b0a0;
+  --board-highlight: #34d399;
+  --board-selected: #059669;
+  --piece-white-bg: #f8fafc;
+  --piece-white-ink: #0f172a;
+  --piece-white-ring: #94a3b8;
+  --piece-black-bg: #1e293b;
+  --piece-black-ink: #f1f5f9;
+  --piece-black-ring: #475569;
+  --piece-hidden-bg: #27272a;
+  --piece-hidden-ink: #a1a1aa;
+
+  --font-sans: ui-sans-serif, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---- Dark theme overrides of the same tokens ---- */
+.dark {
+  --color-surface: #09090b;
+  --color-card: #18181b;
+  --color-card-soft: #1f1f23;
+  --color-border: #27272a;
+  --color-input: #3f3f46;
+  --color-ring: #52525b;
+  --color-ink: #f4f4f5;
+  --color-ink-strong: #e4e4e7;
+  --color-label: #d4d4d8;
+  --color-muted: #a1a1aa;
+  --color-faint: #71717a;
+
+  --color-accent: #10b981;
+  --color-accent-strong: #059669;
+  --color-accent-ink: #052e1b;
+  --color-accent-soft: #064e3b;
+  --color-accent-border: #065f46;
+
+  --board-cell-a: #2b2b30;
+  --board-cell-b: #232327;
+  --board-line: #3f3f46;
+  --board-highlight: #34d399;
+  --board-selected: #10b981;
+  --piece-white-bg: #e2e8f0;
+  --piece-white-ink: #0f172a;
+  --piece-white-ring: #94a3b8;
+  --piece-black-bg: #0f172a;
+  --piece-black-ink: #e2e8f0;
+  --piece-black-ring: #334155;
+  --piece-hidden-bg: #18181b;
+  --piece-hidden-ink: #71717a;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
+  }
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* iOS focus-zoom guard: force form controls to 16px on touch devices so a
+   focused field never triggers the page zoom. Deliberately unlayered so it
+   beats Tailwind utilities, keyed to pointer type (not width). */
+@media (hover: none) and (pointer: coarse) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

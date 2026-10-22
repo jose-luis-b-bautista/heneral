@@ -1,0 +1,16 @@
+# Netlify configuration for the Salpakan client.
+# The client is a plain static SPA (no client-side routing), so a simple
+# publish of `client/dist` is all that's required.
+[build]
+  command = "npm --prefix client run build"
+  publish = "client/dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Point the client at the deployed backend (Render). Set as a build-time env var
+# so it's baked into the bundle at deploy time.
+[env]
+  # VITE_SERVER_URL is intentionally not set here — configure it in the Netlify
+  # dashboard (Build & deploy → Environment variables) with your Render URL.
+  # e.g. VITE_SERVER_URL=https://your-backend.onrender.com

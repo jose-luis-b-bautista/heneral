@@ -1,0 +1,21 @@
+# Render deployment blueprint for the Salpakan arbiter.
+# The free web tier spins down after ~15 min idle — ping GET /api/health from
+# an external cron (every ~10 min) to keep it warm.
+services:
+  - type: web
+    name: salpakan-server
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node src/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20.15.1
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false
